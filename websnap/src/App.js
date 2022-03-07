@@ -1,7 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
+import {retreiveSnap} from "./retreiveSnap";
 
 function App() {
+  retreiveSnap('https://stackoverflow.com/questions/247483/http-get-request-in-javascript')
   return (
     <div className="App">
       <header className="App-header">

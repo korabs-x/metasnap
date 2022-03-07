@@ -17,6 +17,22 @@ function App() {
         >
           Learn React
         </a>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            console.log(event.target.url.value)  
+            // todo call function to retrieve data of the website and store it
+          }}
+        >
+          <input
+            name="url"
+            type="text"
+            placeholder="Enter gif link!"
+          />
+          <button type="submit" className="cta-button submit-gif-button">
+            Submit
+          </button>
+        </form>
       </header>
     </div>
   );

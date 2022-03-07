@@ -2,7 +2,6 @@ import './App.css';
 import {retreiveSnap} from "./retreiveSnap";
 
 function App() {
-  retreiveSnap('https://stackoverflow.com/questions/247483/http-get-request-in-javascript')
   return (
     <div className="App">
       <header className="App-header">
@@ -14,6 +13,7 @@ function App() {
             event.preventDefault();
             console.log(event.target.url.value)
             // todo call function to retrieve data of the website and store it
+            retreiveSnap(event.target.url.value); //https://stackoverflow.com/questions/247483/http-get-request-in-javascript
           }}
         >
           <input

@@ -4,9 +4,9 @@ import { getSnapsForURL } from "./manageSnaps";
 import React, { useState } from 'react';
 
 function App() {
-    const [snapDates, setSnapDates] = useState({});
+    const [snaps, setSnaps] = useState({});
 
-    console.log("t:" + JSON.stringify(Object.entries(snapDates)));
+    console.log("t:" + JSON.stringify(Object.entries(snaps)));
     return (
         <div className="App">
             <header className="App-header">
@@ -53,22 +53,23 @@ function App() {
                         console.log(snaps)
                         // TODO: list dates of available snaps with dates
                         //const dates = snaps.keys();
-                        setSnapDates(snaps);
+                        console.log("t1:" + JSON.stringify(Object.entries(snaps)));
+                        setSnaps(snaps);
+                        console.log("t2:" + JSON.stringify(Object.entries(snaps)));
                     }}
                 >
                     <input
                         name="url"
                         type="text"
                         placeholder="https://docs.filecoin.io/"
+                        defaultValue="https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt"
                     />
                     <button type="submit" className="cta-button submit-gif-button">
                         Go!
                     </button>
                 </form>
                 <ul>
-
-                    {Object.entries(snapDates).map((key, value) => <li id={key}>{key}:{ }</li>)}
-
+                    {Object.entries(snaps).map(([key, val]) => <li key={key}><a href={val.snapUrl}>{key}</a></li>)}
                 </ul>
             </header>
         </div>

@@ -1,8 +1,12 @@
 import './App.css';
-import {retreiveSnap} from "./retreiveSnap";
-import {getSnapsForURL} from "./manageSnaps";
+import { retreiveSnap } from "./retreiveSnap";
+import { getSnapsForURL } from "./manageSnaps";
+import React, { useState } from 'react';
 
 function App() {
+    const [snapDates, setSnapDates] = useState({});
+
+    console.log("t:" + JSON.stringify(Object.entries(snapDates)));
     return (
         <div className="App">
             <header className="App-header">
@@ -19,12 +23,12 @@ function App() {
                         //storeSnapMetadata(snap);
                     }}
                 >
-                    <div style={{fontSize: 12}}>
-                        Examples:<br/>
-                        https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png<br/>
+                    <div style={{ fontSize: 12 }}>
+                        Examples:<br />
+                        https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png<br />
                         https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt
                     </div>
-                    <br/>
+                    <br />
                     <input
                         name="url"
                         type="text"
@@ -48,8 +52,8 @@ function App() {
                         const snaps = getSnapsForURL(url)
                         console.log(snaps)
                         // TODO: list dates of available snaps with dates
-                        const dates = snaps.keys();
-
+                        //const dates = snaps.keys();
+                        setSnapDates(snaps);
                     }}
                 >
                     <input
@@ -61,6 +65,11 @@ function App() {
                         Go!
                     </button>
                 </form>
+                <ul>
+
+                    {Object.entries(snapDates).map((key, value) => <li id={key}>{key}:{ }</li>)}
+
+                </ul>
             </header>
         </div>
     );

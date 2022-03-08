@@ -36,7 +36,7 @@ export const storeSnapMetadata = (snap) => {
     console.log('storeSnapMetadata')
     if (!(snap.url in snaps))
         snaps[snap.url] = {}
-    snaps[snap.url][snap.date] = {snapUrl: snap.snapUrl}
+    snaps[snap.url][snap.date] = { snapUrl: snap.snapUrl }
     console.log(snaps);
 }
 

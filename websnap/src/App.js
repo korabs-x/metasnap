@@ -16,10 +16,17 @@ function App() {
             retreiveSnap(event.target.url.value); //https://stackoverflow.com/questions/247483/http-get-request-in-javascript
           }}
         >
+            <div style={{fontSize: 12}}>
+                Examples:<br/>
+                https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png<br/>
+                https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt
+            </div>
+            <br/>
           <input
             name="url"
             type="text"
             placeholder="https://docs.filecoin.io/"
+            defaultValue="https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt"
           />
           <button type="submit" className="cta-button submit-gif-button">
             Snap!

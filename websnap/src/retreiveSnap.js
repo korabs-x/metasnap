@@ -1,13 +1,13 @@
 import {Client, KeyInfo, Buckets} from '@textile/hub'
 import {Buffer} from 'buffer'
 
+const keyInfo = {
+    key: process.env.REACT_APP_KEY_TEXTILEBUCKETS,
+    secret: process.env.REACT_APP_SECRET_TEXTILEBUCKETS
+}
+
 async function getBucketClient() {
-    const keyInfo = {
-        key: process.env.REACT_APP_KEY_TEXTILEBUCKETS,
-        secret: process.env.REACT_APP_SECRET_TEXTILEBUCKETS
-    }
     const buckets = await Buckets.withKeyInfo(keyInfo)
-    console.log(buckets);
     return buckets;
 }
 
@@ -15,11 +15,7 @@ async function getOrCreateBucket(buckets, bucketName) {
     const {root, threadID} = await buckets.getOrCreate(bucketName)
     if (!root) throw new Error('bucket not created')
     const bucketKey = root.key
-    console.log(threadID);
-    console.log(root);
-    console.log(bucketKey);
     return bucketKey;
-    //add(buckets, 'https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt', bucketKey)
 }
 
 async function printInfo(buckets) {
@@ -27,30 +23,40 @@ async function printInfo(buckets) {
     console.log(links);
     const roots = await buckets.list();
     console.log(roots);
-    //const existing = roots.find((bucket) => bucket.name === 'testbucket');
-    //console.log(existing);
+}
+
+export async function pushExampleFile() {
+    const bucketsX = await getBucketClient();
+    console.log(bucketsX);
+    let bucketKeyX = await getOrCreateBucket(bucketsX, 'testbucket');
+    console.log(bucketKeyX);
+    const fileX = {
+        path: '/index.html',
+        content: new Uint8Array(Buffer.from('https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt'))
+    }
+    console.log(fileX);
+    const links = await bucketsX.pushPath(bucketKeyX, 'test.txt', fileX)//, { root })
+    console.log(`https://hub.textile.io${links.path.path}`);
 }
 
 export const retreiveSnap = async (url) => {
-    const objectURL = 'README.md';
-    let buckets = await getBucketClient();
-    let bucketKey = await getOrCreateBucket(buckets, 'testbucket');
-    //var content = fs.createReadStream(objectURL, {highWaterMark: 1024})
-    // see bottom of https://textileio.github.io/js-textile/docs/
-    const file = { path: '/index.html', content: Buffer.from('https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt') }
-    const raw = await buckets.pushPath(bucketKey, 'index.html', file)
-    return;
     fetch("http://api.scraperapi.com?api_key=" + process.env.REACT_APP_KEY_SCRAPERAPI + "&url=" + url)
         .then(response => response.blob())
         .then(async blob => {
-            const objectURL = URL.createObjectURL(blob);
-            console.log(objectURL);
-            // TODO: store to bucket here
+            //const objectURL = URL.createObjectURL(blob);
+            console.log("getBucketClient");
+            const buckets = await getBucketClient();
+            console.log("getOrCreateBucket");
+            let bucketKey = await getOrCreateBucket(buckets, 'testbucket');
+            console.log("prepare File");
+            let blobContent = await new Response(blob).arrayBuffer();
+            const file = {
+                path: '/index.html',
+                content: blobContent
+            }
+            console.log("pushPath");
+            const links = await buckets.pushPath(bucketKey, '/index.html', file)
+            console.log("Finished upload, download link:");
+            console.log(`https://hub.textile.io${links.path.path}`);
         });
-    /*.then(res => {
-        console.log("Done");
-        return res.text();
-    }).then(function (html) {
-        console.log(html);
-    }).catch(err => console.error(err));*/
 }

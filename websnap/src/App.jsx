@@ -33,7 +33,7 @@ function App() {
                         name="url"
                         type="text"
                         placeholder="https://docs.filecoin.io/"
-                        defaultValue="https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt"
+                        defaultValue="https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png"
                     />
                     <button type="submit" className="cta-button submit-gif-button">
                         Snap!
@@ -54,7 +54,7 @@ function App() {
                         // TODO: list dates of available snaps with dates
                         //const dates = snaps.keys();
                         console.log("t1:" + JSON.stringify(Object.entries(snaps)));
-                        setSnaps(snaps);
+                        setSnaps(JSON.parse(JSON.stringify(snaps)));
                         console.log("t2:" + JSON.stringify(Object.entries(snaps)));
                     }}
                 >
@@ -62,14 +62,14 @@ function App() {
                         name="url"
                         type="text"
                         placeholder="https://docs.filecoin.io/"
-                        defaultValue="https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt"
+                        defaultValue="https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png"
                     />
                     <button type="submit" className="cta-button submit-gif-button">
                         Go!
                     </button>
                 </form>
                 <ul>
-                    {Object.entries(snaps).map(([key, val]) => <li key={key}><a href={val.snapUrl}>{key}</a></li>)}
+                    {Object.entries(snaps).map(([key, val]) => <div key={key} ><a href={val.snapUrl}>{key}</a><br/></div>)}
                 </ul>
             </header>
         </div>

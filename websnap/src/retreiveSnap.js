@@ -1,4 +1,4 @@
-import {Client, KeyInfo, Buckets} from '@textile/hub'
+import {Buckets} from '@textile/hub'
 import {Buffer} from 'buffer'
 import {storeSnapMetadata} from "./manageSnaps";
 
@@ -13,17 +13,10 @@ async function getBucketClient() {
 }
 
 async function getOrCreateBucket(buckets, bucketName) {
-    const {root, threadID} = await buckets.getOrCreate(bucketName)
+    const {root, } = await buckets.getOrCreate(bucketName)
     if (!root) throw new Error('bucket not created')
     const bucketKey = root.key
     return bucketKey;
-}
-
-async function printInfo(buckets) {
-    const links = await buckets.links('testbucket');
-    console.log(links);
-    const roots = await buckets.list();
-    console.log(roots);
 }
 
 export async function pushExampleFile() {

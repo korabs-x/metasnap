@@ -1,5 +1,6 @@
 import './App.css';
 import {retreiveSnap} from "./retreiveSnap";
+import {getSnapsForURL, storeSnapMetadata} from "./manageSnaps";
 
 function App() {
   return (
@@ -9,19 +10,21 @@ function App() {
           Paste url to store a snapshot of it:
         </h3>
         <form
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
             console.log(event.target.url.value)
-            // todo call function to retrieve data of the website and store it
-            retreiveSnap(event.target.url.value); //https://stackoverflow.com/questions/247483/http-get-request-in-javascript
+            const snap = await retreiveSnap(event.target.url.value);
+            console.log(snap)
+            //const snap = {date: 'nowStr', url: 'url', snapUrl: 'snapUrl'};
+            //storeSnapMetadata(snap);
           }}
         >
-            <div style={{fontSize: 12}}>
-                Examples:<br/>
-                https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png<br/>
-                https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt
-            </div>
-            <br/>
+          <div style={{fontSize: 12}}>
+            Examples:<br/>
+            https://www.webkitx.com/doc/light/images/WebKitX_Logo_64x64.png<br/>
+            https://bafzbeibnbpxeejbzvkgb26ex4x6k336gwyr25kzldyxiwdlvalrmbwlpwq.textile.space/test.txt
+          </div>
+          <br/>
           <input
             name="url"
             type="text"
@@ -41,7 +44,10 @@ function App() {
           onSubmit={(event) => {
             event.preventDefault();
             console.log(event.target.url.value)
-            // todo call function to retrieve data of the website and store it
+            const url = event.target.url.value
+            const snaps = getSnapsForURL(url)
+            console.log(snaps)
+            // TODO: list dates of available snaps with dates
           }}
         >
           <input

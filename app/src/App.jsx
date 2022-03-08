@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 
 function App() {
     const [snaps, setSnaps] = useState({});
-
-    console.log("t:" + JSON.stringify(Object.entries(snaps)));
+    var Web3 = require('web3');
+    var web3 = new Web3(Web3.givenProvider || 'http://localhost:7545');
     return (
         <div className="App">
             <header className="App-header">
@@ -53,9 +53,7 @@ function App() {
                         console.log(snaps)
                         // TODO: list dates of available snaps with dates
                         //const dates = snaps.keys();
-                        console.log("t1:" + JSON.stringify(Object.entries(snaps)));
                         setSnaps(JSON.parse(JSON.stringify(snaps)));
-                        console.log("t2:" + JSON.stringify(Object.entries(snaps)));
                     }}
                 >
                     <input

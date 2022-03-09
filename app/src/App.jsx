@@ -5,8 +5,6 @@ import React, { useState } from 'react';
 
 function App() {
     const [snaps, setSnaps] = useState({});
-    var Web3 = require('web3');
-    var web3 = new Web3(Web3.givenProvider || 'http://localhost:7545');
     return (
         <div className="App">
             <header className="App-header">

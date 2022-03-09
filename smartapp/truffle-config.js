@@ -4,6 +4,14 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 module.exports = {
   contracts_build_directory: path.join(__dirname, "client/src/contracts"),
+  compilers: {
+    solc: {
+      version: "^0.6.0",  
+    }
+  },
+  dependencies: {
+    "@chainlink/contracts": "^0.6.0",
+  },
   networks: {
     develop: {
       port: 8545,

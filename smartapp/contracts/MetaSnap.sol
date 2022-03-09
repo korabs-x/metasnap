@@ -17,13 +17,13 @@ contract MetaSnap {
 
     function getSnapsForUrl(string memory _url) public view returns (Snapshot[] memory) {
         return snapshots[_url];
-        Snapshot[] storage memorySnapshots = snapshots[_url];
+        /*Snapshot[] storage memorySnapshots = snapshots[_url];
         Snapshot[] memory urlSnapshots = new Snapshot[](memorySnapshots.length);
         for (uint i = 0; i < memorySnapshots.length; i++) {
             Snapshot memory snap = memorySnapshots[i];
             urlSnapshots[i] = snap;
         }
-        return urlSnapshots;
+        return urlSnapshots;*/
     }
 
     constructor() public {

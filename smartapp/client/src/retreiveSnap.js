@@ -32,14 +32,18 @@ export async function pushExampleFile() {
     console.log(`https://hub.textile.io${links.path.path}`);
 }
 
-export const retreiveSnap = async (url) => {
+export const retreiveSnap = async (url, setLoadingState=null) => {
     console.log("retreiveSnap");
     const now = new Date().getTime();
+    if (setLoadingState)
+        setLoadingState('Downloading snapshot')
     //const nowStr = (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear() + ' ' + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
     return await fetch("http://api.scraperapi.com?api_key=" + process.env.REACT_APP_KEY_SCRAPERAPI + "&url=" + url)
         .then(response => response.blob())
         .then(async blob => {
             //const objectURL = URL.createObjectURL(blob);
+            if (setLoadingState)
+                setLoadingState('Preparing upload')
             console.log("getBucketClient");
             const buckets = await getBucketClient();
             console.log("getOrCreateBucket");
@@ -51,12 +55,16 @@ export const retreiveSnap = async (url) => {
                 content: blobContent
             }
             console.log("pushPath");
+            if (setLoadingState)
+                setLoadingState('Uploading snapshot')
             const links = await buckets.pushPath(bucketKey, '/index.html', file)
             console.log("Finished upload, download link:");
             const snapUrl = `https://hub.textile.io${links.path.path}`;
             console.log(snapUrl);
             const snap = {date: now, url: url, snapUrl: snapUrl}
             console.log(snap)
+            if (setLoadingState)
+                setLoadingState('')
             return snap
         });
 }

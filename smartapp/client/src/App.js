@@ -3,9 +3,12 @@ import {retreiveSnap} from "./retreiveSnap";
 import React, {useEffect, useState} from 'react';
 import getWeb3 from "./getWeb3";
 import MetaSnapContract from "./contracts/MetaSnap.json";
+import {BallTriangle} from "react-loader-spinner";
 
 function App() {
     const [snaps, setSnaps] = useState({});
+    const [hasRequestedResults, setHasRequestedResults] = useState(false);
+    const [loadingState, setLoadingState] = useState('');
     const [web3state, setWeb3state] = useState({web3: null, accounts: null, contract: null});
 
     useEffect(async () => {
@@ -47,7 +50,8 @@ function App() {
                         event.preventDefault();
                         console.log(event.target.url.value)
                         const {accounts, contract} = web3state;
-                        const snap = await retreiveSnap(event.target.url.value);
+                        //setLoadingState('');
+                        const snap = await retreiveSnap(event.target.url.value, setLoadingState);
                         console.log(snap)
                         await contract.methods.addSnapshot(snap.url, snap.date, snap.snapUrl).send({from: accounts[0]});
                     }}
@@ -68,7 +72,21 @@ function App() {
                         Snap!
                     </button>
                 </form>
-
+                <div style={{
+                    visibility: loadingState === '' ? 'hidden' : 'visible',
+                    display: 'flex',
+                    'margin-top': '10px',
+                    fontSize: 15
+                }}>
+                    {/*<div style={{'margin-right': '10px', 'margin-top': 'auto', 'margin-bottom': 'auto'}}>{loadingState}</div>-->*/}
+                    <BallTriangle
+                        height="40"
+                        width="40"
+                        color="grey"
+                        ariaLabel="loading-indicator"
+                    />
+                </div>
+                <div style={{'margin-top': '10px', fontSize: 16}}>{loadingState}</div>
 
                 <h3>
                     Or retrieve snapshots via url:
@@ -84,6 +102,7 @@ function App() {
                         console.log("snapshots")
                         console.log(snapshots)
                         setSnaps(snapshots);
+                        setHasRequestedResults(true)
                         //const dates = snaps.keys();
                         //setSnaps(JSON.parse(JSON.stringify(snaps)));
                     }}
@@ -98,10 +117,12 @@ function App() {
                         Go!
                     </button>
                 </form>
-                <ul>
-                    {Object.values(snaps).map((val) => <div key={val.date}><a href={val.url}>{new Date(parseInt(val.date)).toLocaleString()}</a><br/>
-                    </div>)}
-                </ul>
+                <div style={{'margin-top': '30px'}}>
+                    {hasRequestedResults ? (Object.values(snaps).length + ' snapshots available:') : ''}
+                </div>
+                {Object.values(snaps).map((val) => <div style={{'margin-top': '5px', fontSize: 26}} key={val.date}><a
+                    href={val.url}>{new Date(parseInt(val.date)).toLocaleString()}</a><br/>
+                </div>)}
             </header>
         </div>
     );

@@ -32,7 +32,7 @@ contract MetaSnap is ChainlinkClient {
     }
 
     constructor() public {
-        setPublicChainlinkToken();
+        //setPublicChainlinkToken();
         // TODO these should not be fixed but changable by the owner
         oracle = 0x7AFe1118Ea78C1eae84ca8feE5C65Bc76CcF879e; // for rinkeby testnet, see https://docs.chain.link/docs/decentralized-oracles-ethereum-mainnet/
         jobId = "b0bde308282843d49a3a8d2dd2464af1";
